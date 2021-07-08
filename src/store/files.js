@@ -1,0 +1,32 @@
+import axios from 'axios'
+
+export default {
+	namespaced: true,
+
+	state: {
+		files: []
+	},
+
+
+	getters: {
+		files (state) {
+			return state.files
+		}	
+	},
+
+	mutations: {
+		SET_FILES (state, files) {
+			state.files = files
+		}
+	},
+
+
+	actions: {
+		async getFiles({ commit }) { // 1. RETRIEVE DATA FROM AN ENDPOINT
+			let response = await axios.get('/api/files')
+
+			commit('SET_FILES', response.data.data)
+		}
+
+	}
+}
