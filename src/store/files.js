@@ -21,6 +21,10 @@ export default {
 
 		ADD_FILE (state, file) {
 			state.files = [file, ...state.files]
+		},
+
+		REMOVE_FILE (state, uuid) {
+			state.files = state.files.filter(file => file.uuid !== uuid)
 		}
 	},
 
@@ -30,6 +34,13 @@ export default {
 			let response = await axios.get('/api/files')
 
 			commit('SET_FILES', response.data.data)
+		},
+
+
+		async deleteFile({commit}, uuid){
+			await axios.delete(`api/files/${uuid}`)
+
+			commit('REMOVE_FILE', uuid)
 		}
 
 	}
