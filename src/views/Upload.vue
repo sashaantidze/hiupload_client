@@ -1,7 +1,16 @@
 <template>
   <div>
+
+
+    <div v-if="errors.size" class="bg-red-300 px-6 py-4 rounded-lg text-sm text-gray-800 mb-4">
+      {{ errors.size[0] }}
+    </div>
+
+
     <div class="mb-8">
-      <app-uploader @onprocessfile="storeFile" />
+      
+      <app-uploader @onprocessfile="storeFile" @validation="setValidationErrors" />
+      
     </div>
 
     <div>
@@ -32,6 +41,14 @@ export default {
     AppUploader
   },
 
+
+  data () {
+    return {
+      errors: {}
+    }
+  },
+
+
   computed: {
     ...mapGetters({
       files: 'files/files'
@@ -44,8 +61,15 @@ export default {
       getFiles: 'files/getFiles'
     }),
 
+
+    setValidationErrors (errors) {
+      this.errors = errors
+    },
+
+
     ...mapMutations({
-      addFile: 'files/ADD_FILE'
+      addFile: 'files/ADD_FILE',
+      incrementUsage: 'usage/INCREMENT_USAGE'
     }),
 
   async storeFile (file) {
@@ -56,6 +80,7 @@ export default {
       })
 
       this.addFile(response.data.data)
+      this.incrementUsage(file.fileSize)
 
     }
   },

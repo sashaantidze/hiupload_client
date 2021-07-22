@@ -4,7 +4,10 @@
         <li><router-link :to="{name: 'home'}" class="text-sm inline-block p-3 text-gray-800" href="">Home</router-link></li>
         <li><router-link :to="{name: 'uploads'}" class="text-sm inline-block p-3 text-gray-800" href="">Your Files</router-link></li>
       </ul>
-      {{authenticated}}
+
+      <div class="flex justify-center order-last w-full md:w-auto md:order-none">
+        <app-usage v-if="authenticated" />
+      </div>
 
       <ul class="flex items-center">
         <template v-if="!authenticated">
@@ -13,7 +16,7 @@
         </template>
 
         <template v-if="authenticated">
-          <li><a class="text-sm inline-block p-3 text-gray-800" href="">{{user.names}}</a></li>
+          <li><a class="text-sm inline-block p-3 text-gray-800" href="">Account {{user.name}}</a></li>
           <li><a class="text-sm inline-block p-3 text-gray-800" href="" @click.prevent="logout">Log out</a></li>
         </template>
         
@@ -25,8 +28,14 @@
 <script>
 
 import {mapGetters, mapActions} from 'vuex'
+import AppUsage from '@/components/AppUsage'
 
 export default {
+  components: {
+    AppUsage
+  },
+
+
   computed: {
     ...mapGetters({
       authenticated: 'auth/authenticated',
