@@ -46,7 +46,7 @@ export default {
 							  icon: 'error',
 							  title: 'Oops...',
 							  text: e.response.data.errors.size,
-							  footer: '<a href="#">Upgrade Plan?</a>'
+							  footer: `<a :to="{name: 'plans'}">Upgrade Plan?</a>`
 							})
 
 							this.$emit('validation', e.response.data.errors)

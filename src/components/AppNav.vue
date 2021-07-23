@@ -16,9 +16,15 @@
         </template>
 
         <template v-if="authenticated">
-          <li><a class="text-sm inline-block p-3 text-gray-800" href="">Account {{user.name}}</a></li>
+          <li><a class="text-sm inline-block p-3 text-gray-800" href="">Account</a></li>
           <li><a class="text-sm inline-block p-3 text-gray-800" href="" @click.prevent="logout">Log out</a></li>
         </template>
+
+
+        <li>
+          <router-link class="text-sm inline-block p-3 text-indigo-500 font-bold" :to="{name: 'plans'}">Upgrade 🌟</router-link>
+        </li>
+
         
       </ul>
     </header>
