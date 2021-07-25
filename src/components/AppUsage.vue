@@ -1,6 +1,6 @@
 <template>
 	<span class="inline-block text-sm font-medium text-gray-800 text-center bg-gray-200 rounded-lg py-2 px-3">
-		Usage: {{usageFormatted}} / {{planStorageFormatted}} ({{percetageUsed}}%) {{}}
+		Usage: {{usageFormatted}} / {{planStorageFormatted}} ({{planName}}) ({{percetageUsed}}%)
 	</span>
 </template>
 
@@ -25,6 +25,11 @@ export default {
 
 		percetageUsed () {
 			return ((this.usage / this.user.plan.storage) * 100).toFixed(1)
+		},
+
+
+		planName () {
+			return this.user.plan.name
 		}
 	},
 

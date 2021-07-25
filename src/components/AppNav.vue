@@ -16,14 +16,16 @@
         </template>
 
         <template v-if="authenticated">
-          <li><a class="text-sm inline-block p-3 text-gray-800" href="">Account</a></li>
+          <li><router-link class="text-sm inline-block p-3 text-gray-800" :to="{name: 'account'}">Account</router-link></li>
           <li><a class="text-sm inline-block p-3 text-gray-800" href="" @click.prevent="logout">Log out</a></li>
         </template>
 
 
-        <li>
-          <router-link class="text-sm inline-block p-3 text-indigo-500 font-bold" :to="{name: 'plans'}">Upgrade 🌟</router-link>
-        </li>
+        
+          <li v-if="!authenticated || !user.subscribed">
+            <router-link class="text-sm inline-block p-3 text-indigo-500 font-bold" :to="{name: 'plans'}">Upgrade 🌟</router-link>
+          </li>
+        
 
         
       </ul>

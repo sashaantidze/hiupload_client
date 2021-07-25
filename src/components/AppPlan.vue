@@ -7,7 +7,7 @@
 		</div>
 
 		<span class="font-medium">
-			GEL {{ parseInt(plan.price, 10) / 100 }} / month
+			{{ priceFormatted }}
 		</span>
 	</div>
 
@@ -25,9 +25,16 @@ export default {
 	},
 
 
-	computed : {
+	computed: {
 		storageFormtted () {
 			return filesize(this.plan.storage)
+		},
+
+		priceFormatted () {
+			if(!this.plan.price){
+				return 'Free'
+			}
+			return 'GEL ' + parseInt(this.plan.price, 10) / 100 + ' / month'
 		}
 	}
 
