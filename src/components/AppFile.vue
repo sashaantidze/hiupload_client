@@ -6,7 +6,7 @@
 		</div>
 
 		<div class="-mr-3 flex items-center">
-			<a href="" class="inline-block text-sm p-3 text-indigo-500 font-medium">Get Sharable Link</a>
+			<app-file-link :file="file" />
 			<a href="" class="inline-block text-sm p-3 text-pink-500 font-medium" @click.prevent="deleteFile">Delete</a>
 		</div>
 
@@ -17,6 +17,7 @@
 <script>
 	
 import {mapActions, mapMutations} from 'vuex'
+import AppFileLink from '@/components/AppFileLink'
 import filesize from 'filesize'
 
 export default {
@@ -25,6 +26,10 @@ export default {
 			required: true,
 			type: Object
 		}
+	},
+
+	components: {
+		AppFileLink
 	},
 
 	computed: {
@@ -43,15 +48,26 @@ export default {
 		}),
 
 		async deleteFile () {
-			if(window.confirm("Are you sure you want to delete this file?")){
-				await this.deleteFileAction(this.file.uuid)
 
-				this.decrementUsage(this.file.size)
-			}
-			else{
-				alert("File deletion cancelled")
-			}
-			
+			await this.$swal({
+			  title: 'Are you sure?',
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  confirmButtonText: 'Yes, delete it!'
+			}).then((result) => {
+				if (result.isConfirmed) {
+				 	this.deleteFileAction(this.file.uuid)
+					this.decrementUsage(this.file.size)
+					
+				}
+
+
+			})
+
+
+
 		}
 	}
 }

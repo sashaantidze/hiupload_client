@@ -16,7 +16,7 @@
 
       </div>
 
-      <button type="submit" class="bg-indigo-500 text-white px-4 py-3 leading-none rounded-lg font-medium">Login</button>
+      <app-button :disabled="loading" :loading="loading" title="Login" type="submit" class="bg-indigo-500 text-white px-4 py-3 leading-none rounded-lg font-medium" />
 
 
     </form>
@@ -29,16 +29,23 @@
 <script>
 
 import {mapActions} from 'vuex'
+import AppButton from '@/components/AppButton'
 
 export default {
   data () {
     return {
+      loading: false,
       form: {
         email: 'bdare@example.com',
         password: '',
       }
     }
   },
+
+  components: {
+    AppButton
+  },
+
 
 
   methods: {
@@ -47,10 +54,19 @@ export default {
     }),
     
     async login () {
-      await this.loginAction(this.form)
+      this.loading = true
 
-      this.$router.replace({name: 'home'})
-      //this.loginAction({email: 'bdare@example.com', password: '123456'})
+      try {
+
+        await this.loginAction(this.form)
+        this.$router.replace({name: 'home'})
+
+      } catch (e) {
+
+        console.log(e.response)
+        this.loading = false  
+      }
+         
     }
   }
 }

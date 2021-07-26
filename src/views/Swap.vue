@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form action="" @submit.prevent="swap">
+    <form @submit.prevent="swap">
     	<div class="mb-6">
 
     		<div class="mb-2 flex items-center" v-for="plan in plans" :key="plan.slug">
@@ -13,14 +13,15 @@
     			v-model="form.plan"
     			v-if="availablePlans.find(p => p.slug === plan.slug)"
     			>
-    			<label :for="`plan_${plan.slug}`" class="flex-grow">
+    			<label :for="`plan_${plan.slug}`" class="flex-grow" :class="plan.slug === user.plan.slug ? 'bg-indigo-500 text-white' : ''">
     				<app-plan :plan="plan"/>
 				</label>
     		</div>
     		
     	</div>
 
-    	<button v-if="availablePlans.length" type="submit" class="bg-indigo-500 text-white px-4 py-3 leading-none rounded-lg font-medium">Swap</button>
+    	<app-button :loading="loading" :disabled="loading || !form.plan" type="submit" title="Swap" v-if="availablePlans.length" />
+
     	<p v-else class="text-sm text-red-400">There are no available plans for you right now, as you are using too much storage.</p>
     </form>
   </div>
@@ -29,17 +30,20 @@
 <script>
 import axios from 'axios'
 import AppPlan from '@/components/AppPlan'
-import {mapGetters} from 'vuex'
+import AppButton from '@/components/AppButton'
+import {mapGetters, mapActions} from 'vuex'
 
 export default {
   
   components: {
-  	AppPlan
+  	AppPlan,
+    AppButton
   },
 
 
   data () {
   	return {
+      loading: false,
   		plans: [],
   		planAvailability: [],
   		form: {
@@ -59,14 +63,31 @@ export default {
   },
 
   methods: {
-  	swap () {
-  		console.log(this.form.plan)
+    ...mapActions({
+      me: 'auth/me'
+    }),
+
+
+
+  	async swap () {
+      this.loading = true
+  		await axios.patch('api/subscriptions', this.form)
+      await this.me()
+
+      this.loading = false
+
+      this.$router.replace({name: 'account'})
   	}
   },
 
   async mounted() {
-    let plans = await axios.get('api/plans')
-    this.plans = plans.data.data
+    await axios.get('api/plans').then((res) => {
+      res.data.data.forEach((item) => {
+        item.is_current_plan = item.slug === this.user.plan.slug
+        this.plans.push(item)
+      })
+    })
+
 
     let planAvailability = await axios.get('api/user/plan_availability')
     this.planAvailability = planAvailability.data.data
