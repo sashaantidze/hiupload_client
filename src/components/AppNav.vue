@@ -22,10 +22,10 @@
 
 
         
-          <li v-if="!authenticated || !user.subscribed">
+          <li v-if="!authenticated || (!user.subscribed || user.plan.slug !== 'large')">
             <router-link class="text-sm inline-block p-3 text-indigo-500 font-bold" :to="{name: 'plans'}">Upgrade 🌟</router-link>
           </li>
-        
+          
 
         
       </ul>
@@ -61,6 +61,10 @@ export default {
       await this.logoutAction()
       this.$router.replace({name: 'home'})
     }
+  },
+
+  mounted () {
+    console.log(this.user)
   }
 }
 </script>

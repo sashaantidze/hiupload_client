@@ -14,8 +14,10 @@ export default {
     }
   },
 
+
   methods: {
   	copyToClipboard (value) {
+
   		let dummy = document.createElement('input')
 
   		dummy.value = value
@@ -24,15 +26,26 @@ export default {
   		document.execCommand('copy')
   		document.body.removeChild(dummy)
 
-  		alert('copied')
   	},
 
 
-  	async getLink() {
-  		let response = await axios.post(`api/files/${this.file.uuid}/links`)
+  	getLink() {
 
-  		this.copyToClipboard(response.data.data.url)
+      this.$swal({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Copied',
+        showConfirmButton: false,
+        timer: 1000,
+        didOpen: async () => {
+          let response = await axios.post(`api/files/${this.file.uuid}/links`)
+          this.copyToClipboard(response.data.data.url)
+        }
+      })
+      
   	}
+
+
   }
 }
 </script>

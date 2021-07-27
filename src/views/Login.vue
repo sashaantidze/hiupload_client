@@ -17,6 +17,7 @@
       </div>
 
       <app-button :disabled="loading" :loading="loading" title="Login" type="submit" class="bg-indigo-500 text-white px-4 py-3 leading-none rounded-lg font-medium" />
+      <app-loader :loading="loading" />
 
 
     </form>
@@ -30,6 +31,7 @@
 
 import {mapActions} from 'vuex'
 import AppButton from '@/components/AppButton'
+import AppLoader from '@/components/AppLoader'
 
 export default {
   data () {
@@ -43,7 +45,8 @@ export default {
   },
 
   components: {
-    AppButton
+    AppButton,
+    AppLoader
   },
 
 

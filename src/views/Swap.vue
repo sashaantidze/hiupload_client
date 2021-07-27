@@ -21,8 +21,8 @@
     	</div>
 
     	<app-button :loading="loading" :disabled="loading || !form.plan" type="submit" title="Swap" v-if="availablePlans.length" />
-
     	<p v-else class="text-sm text-red-400">There are no available plans for you right now, as you are using too much storage.</p>
+      <app-loader :loading="loading" />
     </form>
   </div>
 </template>
@@ -31,13 +31,15 @@
 import axios from 'axios'
 import AppPlan from '@/components/AppPlan'
 import AppButton from '@/components/AppButton'
+import AppLoader from '@/components/AppLoader'
 import {mapGetters, mapActions} from 'vuex'
 
 export default {
   
   components: {
   	AppPlan,
-    AppButton
+    AppButton,
+    AppLoader
   },
 
 
