@@ -22,7 +22,7 @@
 
 
         
-          <li v-if="!authenticated || (!user.subscribed || user.plan.slug !== 'large')">
+          <li v-if="!authenticated || (!user.subscribed)">
             <router-link class="text-sm inline-block p-3 text-indigo-500 font-bold" :to="{name: 'plans'}">Upgrade 🌟</router-link>
           </li>
           

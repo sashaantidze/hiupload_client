@@ -56,7 +56,7 @@ export default {
 
   computed: {
   	...mapGetters({
-  		user: 'auth/user'
+  		user: 'auth/user',
   	}),
 
   	availablePlans() {
@@ -66,7 +66,8 @@ export default {
 
   methods: {
     ...mapActions({
-      me: 'auth/me'
+      me: 'auth/me',
+      snack: 'snack/snack'
     }),
 
 
@@ -77,7 +78,8 @@ export default {
       await this.me()
 
       this.loading = false
-
+      
+      this.snack(`You've swapped to ${this.user.plan.name} Plan`)
       this.$router.replace({name: 'account'})
   	}
   },

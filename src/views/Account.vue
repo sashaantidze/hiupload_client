@@ -10,7 +10,7 @@
 	    	</template>
     	</p>
 
-    	<router-link :to="{name: 'swap'}" class="text-indigo-500 pt-3">Swap Plan</router-link>
+    	<router-link :to="{name: 'swap'}" class="text-indigo-500 pt-3" v-if="user.subscribed">Swap Plan</router-link>
     </div>
 
   </div>

@@ -6,6 +6,7 @@
 
 <script>
 import axios from 'axios'
+import {mapActions} from 'vuex'
 export default {
   props: {
     file: {
@@ -16,6 +17,11 @@ export default {
 
 
   methods: {
+    ...mapActions({
+      snack: 'snack/snack'
+    }),
+
+
   	copyToClipboard (value) {
 
   		let dummy = document.createElement('input')
@@ -26,22 +32,24 @@ export default {
   		document.execCommand('copy')
   		document.body.removeChild(dummy)
 
+      this.snack('Copied to clipboard')
+
   	},
 
 
-  	getLink() {
+  	async getLink() {
 
-      this.$swal({
-        position: 'top-end',
-        icon: 'success',
-        title: 'Copied',
-        showConfirmButton: false,
-        timer: 1000,
-        didOpen: async () => {
+      // this.$swal({
+      //   position: 'top-end',
+      //   icon: 'success',
+      //   title: 'Copied',
+      //   showConfirmButton: false,
+      //   timer: 1000,
+      //   didOpen: async () => {
           let response = await axios.post(`api/files/${this.file.uuid}/links`)
           this.copyToClipboard(response.data.data.url)
-        }
-      })
+      //   }
+      // })
       
   	}
 

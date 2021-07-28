@@ -37,7 +37,6 @@ export default {
   },
 
   data () {
-    
   	return {
       loading: false,
   		intent: {
@@ -67,7 +66,8 @@ export default {
   methods: {
 
     ...mapActions({
-      me: 'auth/me'
+      me: 'auth/me',
+      snack: 'snack/snack'
     }),
 
   	async submit () {	
@@ -88,11 +88,13 @@ export default {
 			await this.createSubscription(setupIntent.payment_method)
       this.loading = false
 		}
-  	},
+	},
 
   	async createSubscription (token) {
   		let response = await axios.post('api/subscriptions', {plan: this.plan, token})
       await this.me()
+
+      this.snack('Subscription created.')
 
       this.$router.replace({name: 'account'})
   	}
