@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class="font-medium pb-3 border-b-2 border-gray-100 text-gray-800">Subscription</h2>
-
+    <div class="mt-3 text-4xl">Hi, {{user.name}}</div>
     <div class="mt-3 text-sm">
     	<p class="mb-2 text-2xl">You're currently on the <span class="text-purple-600 text-3xl font-semibold">{{ user.plan.name }}</span> plan.</p>
     	<p class="text-lg">

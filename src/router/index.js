@@ -7,6 +7,7 @@ import Checkout from '../views/Checkout.vue'
 import Account from '../views/Account.vue'
 import Swap from '../views/Swap.vue'
 import Download from '../views/Download.vue'
+import Register from '../views/Register.vue'
 
 const routes = [
   {
@@ -19,6 +20,12 @@ const routes = [
     path: '/login',
     name: 'login',
     component: Login
+  },
+  
+  {
+    path: '/register',
+    name: 'register',
+    component: Register
   },
 
   {
@@ -44,6 +51,7 @@ const routes = [
     name: 'swap',
     component: Swap
   },
+
 
   {
     path: '/checkout',

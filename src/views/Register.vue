@@ -4,6 +4,12 @@
     <form action="" @submit.prevent="login" class="mb-8">
 
       <div class="mb-6">
+
+        <div class="mb-6">
+          <label for="name" class="inline-block text-sm mb-2">Name</label>
+          <input :class="{'border-red-500': errors.name}" type="text" id="name" class="w-full border-2 border-gray-200 h-10 px-3 rounded-md" v-model="form.name">
+          <div class="text-sm text-red-500 mt-1" v-if="errors.name">{{errors.name[0]}}</div>
+        </div>
         
         <div class="mb-6">
           <label for="email" class="inline-block text-sm mb-2">Email address</label>
@@ -20,19 +26,19 @@
 
       </div>
 
-      <app-button :disabled="loading" :loading="loading" title="Login" type="submit" class="bg-indigo-500 text-white px-4 py-3 leading-none rounded-lg font-medium" />
+      <app-button :disabled="loading" :loading="loading" title="Create Account" type="submit" class="bg-indigo-500 text-white px-4 py-3 leading-none rounded-lg font-medium" />
       <app-loader :loading="loading" />
 
 
     </form>
 
-      <p class="text-sm text-gray-800">Not joined yet? <router-link class="text-indigo-500" :to="{name: 'register'}">Create an Account</router-link></p>
+      <p class="text-sm text-gray-800">Already have an account? <router-link class="text-indigo-500" :to="{name: 'login'}">Login</router-link></p>
   
   </div>
 </template>
 
 <script>
-
+import axios from 'axios' 
 import {mapActions} from 'vuex'
 import AppButton from '@/components/AppButton'
 import AppLoader from '@/components/AppLoader'
@@ -43,7 +49,8 @@ export default {
       loading: false,
       errors: {},
       form: {
-        email: 'bdare@example.com',
+        name: '',
+        email: '',
         password: '',
       }
     }
@@ -67,15 +74,24 @@ export default {
       this.errors = {}
 
       try {
+        
+        await axios.post('/api/register', this.form)
 
-        await this.loginAction(this.form)
+        await this.loginAction({
+          email: this.form.email,
+          password: this.form.password
+        })
+
         this.snack('Hi There!')
+
+        this.loading = false
 
         this.$router.replace({name: 'home'})
 
       } catch (e) {
         this.loading = false 
 
+        console.log(e.response)
         if(e.response.status === 422){
           this.errors = e.response.data.errors
         }

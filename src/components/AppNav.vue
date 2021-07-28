@@ -12,7 +12,7 @@
       <ul class="flex items-center">
         <template v-if="!authenticated">
           <li><router-link :to="{name: 'login'}" class="text-sm inline-block p-3 text-gray-800" href="">Sign in</router-link></li>
-          <li><a class="text-sm inline-block p-3 text-gray-800" href="">Create Account</a></li>
+          <li><router-link class="text-sm inline-block p-3 text-gray-800" :to="{name: 'register'}">Create Account</router-link></li>
         </template>
 
         <template v-if="authenticated">
