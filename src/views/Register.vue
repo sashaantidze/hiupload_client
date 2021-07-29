@@ -24,6 +24,11 @@
 
         </div>
 
+        <div class="mb-6">
+          <label for="password_confirmation" class="inline-block text-sm mb-2">Confirm Password</label>
+          <input type="password" id="password_confirmation" class="w-full border-2 border-gray-200 h-10 px-3 rounded-md" v-model="form.password_confirmation">
+        </div>
+
       </div>
 
       <app-button :disabled="loading" :loading="loading" title="Create Account" type="submit" class="bg-indigo-500 text-white px-4 py-3 leading-none rounded-lg font-medium" />
@@ -52,6 +57,7 @@ export default {
         name: '',
         email: '',
         password: '',
+        password_confirmation: ''
       }
     }
   },
