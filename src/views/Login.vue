@@ -43,7 +43,7 @@ export default {
       loading: false,
       errors: {},
       form: {
-        email: 'bdare@example.com',
+        email: 'hugheadrnn@gmail.com',
         password: '',
       }
     }
